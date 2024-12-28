@@ -61,7 +61,7 @@ def handle_phone(message: Message, bot: TeleBot):
     user.phone = phone
     user.save()
 
-    keyboard = types.InlineKeyboardMarkup(row_width=5)
+    keyboard = types.InlineKeyboardMarkup(row_width=3)
     regions = Group.objects.filter(is_active=True)
     buttons = [
         types.InlineKeyboardButton(text=region.name, url=region.url)
