@@ -5,7 +5,7 @@ import telebot
 from django.utils.translation import gettext as _
 from telebot import TeleBot, types
 from telebot.types import Message, CallbackQuery, ReplyKeyboardMarkup, KeyboardButton
-
+from django.utils import timezone
 from apps.bot.logger import logger
 from apps.bot.utils import update_or_create_user
 from apps.support.models import Group, BotUsers, GroupType
@@ -139,6 +139,7 @@ def confirm_subscription(call: CallbackQuery, bot: TeleBot):
     base64_user_id = base64.b64encode(user_id_bytes).decode("utf-8")
     user = BotUsers.objects.filter(telegram_id=user_id).first()
     user.code = base64_user_id
+    user.code_get_time = timezone.now()
     user.save()
     bot.send_message(
         call.message.chat.id,

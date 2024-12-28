@@ -4,6 +4,7 @@ from django.db.models import (
     CharField,
     TextChoices,
 )
+from django.db.models.fields import DateTimeField
 from django.utils.translation import gettext_lazy as _
 
 from apps.shared.models import AbstractBaseModel
@@ -53,6 +54,9 @@ class BotUsers(AbstractBaseModel):
         verbose_name=_("Rol"),
     )
     code = CharField(max_length=100, null=True, blank=True, verbose_name=_("Kod"))
+    code_get_time = DateTimeField(
+        null=True, blank=True, verbose_name=_("Kodni olish vaqti")
+    )
 
     class Meta:
         db_table = "bot_users"
