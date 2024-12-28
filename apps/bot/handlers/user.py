@@ -146,16 +146,16 @@ def confirm_subscription(call: CallbackQuery, bot: TeleBot):
             logger.error(f"Error in confirm_subscription: {e}")
             return
 
-    user_id_bytes = str(user_id).encode("utf-8")
-    base64_user_id = base64.b64encode(user_id_bytes).decode("utf-8")
+    # user_id_bytes = str(user_id).encode("utf-8")
+    # base64_user_id = base64.b64encode(user_id_bytes).decode("utf-8")
     user = BotUsers.objects.filter(telegram_id=user_id).first()
-    user.code = base64_user_id
+    user.code = user_id
     user.code_get_time = timezone.now()
     user.save()
     bot.send_message(
         call.message.chat.id,
         _(
-            f"🎉 Tabriklaymiz! Siz muvaffaqiyatli obuna bo'ldingiz!\n\n👉 Sizning maxsus kodingiz:  `{base64_user_id}`"
+            f"🎉 Tabriklaymiz! Siz muvaffaqiyatli obuna bo'ldingiz!\n\n👉 Sizning ID raqamingiz:  `{user_id}`"
         ),
         parse_mode="Markdown",
     )
