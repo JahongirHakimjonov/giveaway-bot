@@ -31,4 +31,4 @@ class Group(AbstractBaseModel):
         db_table = "groups"
         verbose_name = _("Kanal")
         verbose_name_plural = _("Kanallar")
-        ordering = ["name"]
+        ordering = ["created_at"]
