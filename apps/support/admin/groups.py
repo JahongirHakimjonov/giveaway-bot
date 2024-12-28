@@ -1,11 +1,12 @@
 from django.contrib import admin
+from import_export.admin import ImportExportModelAdmin
 from unfold.admin import ModelAdmin
 
 from apps.support.models import Group
 
 
 @admin.register(Group)
-class GroupAdmin(ModelAdmin):
+class GroupAdmin(ModelAdmin, ImportExportModelAdmin):
     list_display = (
         "id",
         "name",
