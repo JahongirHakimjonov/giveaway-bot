@@ -16,6 +16,7 @@ class BotUsersAdmin(ModelAdmin, ImportExportModelAdmin):
         "language_code_with_color",
         "role_with_color",
         "code",
+        "phone",
         "created_at",
     )
     search_fields = (
