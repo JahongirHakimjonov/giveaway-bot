@@ -54,12 +54,14 @@ def handle_phone(message: Message, bot: TeleBot):
             message.chat.id,
             _("Yaroqsiz telefon raqam formati. Iltimos, qayta urinib ko'ring."),
         )
+        logger.info(f"User {message.from_user.id} entered an invalid phone number.")
         bot.register_next_step_handler(message, handle_phone, bot)
         return
 
     user = BotUsers.objects.get(telegram_id=message.from_user.id)
     user.phone = phone
     user.save()
+    logger.info(f"User {message.from_user.id} entered phone number: {phone}")
 
     keyboard = types.InlineKeyboardMarkup(row_width=3)
     regions = Group.objects.filter(is_active=True)
@@ -80,6 +82,7 @@ def handle_phone(message: Message, bot: TeleBot):
         reply_markup=keyboard,
         parse_mode="Markdown",
     )
+    logger.info(f"User {message.from_user.id} asked to confirm subscription.")
 
 
 def confirm_subscription(call: CallbackQuery, bot: TeleBot):
@@ -99,6 +102,9 @@ def confirm_subscription(call: CallbackQuery, bot: TeleBot):
                     ),
                     show_alert=True,
                 )
+                logger.info(
+                    f"User {user_id} is not subscribed to {group.name}."
+                )
                 return
         except telebot.apihelper.ApiTelegramException as e:
             if e.error_code == 400:
@@ -110,12 +116,18 @@ def confirm_subscription(call: CallbackQuery, bot: TeleBot):
                         ),
                         show_alert=True,
                     )
+                    logger.info(
+                        f"User {user_id} tried to confirm subscription with an old query."
+                    )
                 else:
                     bot.send_message(
                         call.message.chat.id,
                         _(
                             "Xatolik yuz berdi: chat topilmadi. Iltimos, qayta urinib ko'ring."
                         ),
+                    )
+                    logger.info(
+                        f"User {user_id} tried to confirm subscription with an unknown error."
                     )
             else:
                 bot.send_message(
@@ -137,3 +149,4 @@ def confirm_subscription(call: CallbackQuery, bot: TeleBot):
         ),
         parse_mode="Markdown",
     )
+    logger.info(f"User {user_id} successfully subscribed to all groups.")
