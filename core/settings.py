@@ -1,5 +1,4 @@
 import os  # noqa
-from pathlib import Path
 
 from django.utils.translation import gettext_lazy as _
 from dotenv import load_dotenv, find_dotenv
@@ -120,3 +119,5 @@ MEDIA_ROOT = str(BASE_DIR.joinpath("assets/media"))
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+SITE_URL = os.getenv("SITE_URL", "https://giveaway-bot.felixits.uz")

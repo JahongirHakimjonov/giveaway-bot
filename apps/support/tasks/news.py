@@ -3,7 +3,7 @@ import os
 from time import sleep
 
 from celery import shared_task
-from django.utils.translation import activate
+from django.conf import settings
 from telebot import TeleBot
 from telebot.apihelper import ApiTelegramException
 
@@ -25,17 +25,21 @@ def send_news_to_subscribers(news_id):
         count = 0
         for user in users:
             try:
-                if news.image:
-                    # Agar rasm mavjud bo'lsa, rasmini yuboradi
+                if news.image and news.image.url:
+                    url = f"{settings.SITE_URL}{news.image.url}"
+                    print(news.image.url)
+                    print(news.image)
+                    print(url)
+                    # Check if the image URL is valid before sending
                     bot.send_photo(
                         user.telegram_id,
-                        photo=news.image.url,
+                        photo=url,
                         caption=message,
                         parse_mode="Markdown",
                     )
                     logger.info(f"News sent to user {user.id}")
                 else:
-                    # Faqat matn yuborish
+                    # Send only text if no valid image URL
                     bot.send_message(
                         user.telegram_id, text=message, parse_mode="Markdown"
                     )

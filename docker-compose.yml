@@ -15,8 +15,8 @@ services:
       - ${PORT:-8001}:8000
     depends_on:
       - db
-#      - rabbitmq
-#      - redis
+      - rabbitmq
+      - redis
 
   db:
     image: postgres:15-alpine
@@ -41,62 +41,57 @@ services:
       - web
     restart: always
 
-#  redis:
-#    image: redis:latest
-#    restart: always
+  redis:
+    image: redis:latest
+    restart: always
 
 
-#  redis:
-#    image: redis:latest
-#    restart: always
-
-
-#  rabbitmq:
-#    image: rabbitmq:management
-#    env_file:
-#      - .env
-#    restart: always
-#    environment:
-#      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
-#      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
-#    ports:
-#      - ${RABBITMQ_PORT:-15672}:15672
-#      - ${AMQP_PORT:-5672}:5672
-#    volumes:
-#      - rabbitmq:/var/lib/rabbitmq
+  rabbitmq:
+    image: rabbitmq:management
+    env_file:
+      - .env
+    restart: always
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+    ports:
+      - ${RABBITMQ_PORT:-15672}:15672
+      - ${AMQP_PORT:-5672}:5672
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq
 
 
 
-#  celery_worker:
-#    build:
-#      context: .
-#      dockerfile: ./deployments/compose/django/Dockerfile
-#    command: /start-celeryworker
-#    restart: always
-#    volumes:
-#      - .:/app
-#    env_file:
-#      - .env
-#    depends_on:
-#      - redis
-#      - rabbitmq
-#      - db
+  celery_worker:
+    build:
+      context: .
+      dockerfile: ./deployments/compose/django/Dockerfile
+    command: /start-celeryworker
+    restart: always
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - rabbitmq
+      - db
 
 
-#  celery_beat:
-#    build:
-#      context: .
-#      dockerfile: ./deployments/compose/django/Dockerfile
-#    command: /start-celerybeat
-#    restart: always
-#    volumes:
-#      - .:/app
-#    env_file:
-#      - .env
-#    depends_on:
-#      - redis
-#      - rabbitmq
-#      - db
+  celery_beat:
+    build:
+      context: .
+      dockerfile: ./deployments/compose/django/Dockerfile
+    command: /start-celerybeat
+    restart: always
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - rabbitmq
+      - db
 
 
 #  flower:
@@ -121,5 +116,5 @@ services:
 volumes:
   pg_data:
     driver: local
-#  rabbitmq:
-#    driver: local
+  rabbitmq:
+    driver: local

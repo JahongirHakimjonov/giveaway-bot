@@ -1,11 +1,13 @@
 from django.db.models import (
     BigIntegerField,
     BooleanField,
-    CharField, TextChoices,
+    CharField,
+    TextChoices,
 )
 from django.utils.translation import gettext_lazy as _
 
 from apps.shared.models import AbstractBaseModel
+
 
 class GroupType(TextChoices):
     CHANNEL = "CHANNEL", _("Kanal")

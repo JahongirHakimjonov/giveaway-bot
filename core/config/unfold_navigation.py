@@ -66,6 +66,14 @@ PAGES = [
                     request.user, "view_group"
                 ),
             },
+            {
+                "title": _("Yangilik"),
+                "icon": "brand_awareness",
+                "link": reverse_lazy("admin:support_news_changelist"),
+                "permission": lambda request: user_has_group_or_permission(
+                    request.user, "view_news"
+                ),
+            },
         ],
     },
 ]

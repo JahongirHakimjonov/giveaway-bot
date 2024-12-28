@@ -102,9 +102,7 @@ def confirm_subscription(call: CallbackQuery, bot: TeleBot):
                     ),
                     show_alert=True,
                 )
-                logger.info(
-                    f"User {user_id} is not subscribed to {group.name}."
-                )
+                logger.info(f"User {user_id} is not subscribed to {group.name}.")
                 return
         except telebot.apihelper.ApiTelegramException as e:
             if e.error_code == 400:
