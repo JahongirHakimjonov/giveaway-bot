@@ -12,6 +12,7 @@ class GroupAdmin(ModelAdmin):
         "group_id",
         "url",
         "is_active",
+        "group_type",
         "created_at",
     )
     search_fields = ("name",)
