@@ -8,7 +8,7 @@ from telebot.types import Message, CallbackQuery, ReplyKeyboardMarkup, KeyboardB
 
 from apps.bot.logger import logger
 from apps.bot.utils import update_or_create_user
-from apps.support.models import Group, BotUsers
+from apps.support.models import Group, BotUsers, GroupType
 
 
 def any_user(message: Message, bot: TeleBot):
@@ -88,7 +88,7 @@ def handle_phone(message: Message, bot: TeleBot):
 def confirm_subscription(call: CallbackQuery, bot: TeleBot):
     user_id = call.from_user.id
 
-    groups = Group.objects.filter(is_active=True)
+    groups = Group.objects.filter(is_active=True, group_type=GroupType.CHANNEL)
     for group in groups:
         try:
             username = group.url.replace("https://t.me/", "@")
