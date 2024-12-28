@@ -109,7 +109,7 @@ def confirm_subscription(call: CallbackQuery, bot: TeleBot):
                     call.id,
                     _(
                         f"❗️Siz homiy kanallarga hali obuna bo'lmadingiz, kanallarga obuna bo'ling va Tasdiqlash tugmasini bosing.\n\n🎯Yutish imkoniyatini boy bermang!"
-                        f"\n\n👉 {group.name} Obuna bo'ling"
+                        f"\n\n👉 {group.name} ga obuna bo'ling"
                     ),
                     show_alert=True,
                 )
@@ -132,7 +132,7 @@ def confirm_subscription(call: CallbackQuery, bot: TeleBot):
                     bot.send_message(
                         call.message.chat.id,
                         _(
-                            "Xatolik yuz berdi: chat topilmadi. Bot kanallarda admin qilinmagan Iltimos, qayta urinib ko'ring."
+                            f"Xatolik yuz berdi: chat topilmadi. Bot {username}  kanalida admin qilinmagan Iltimos, keyinroq urinib ko'ring."
                         ),
                     )
                     logger.info(
