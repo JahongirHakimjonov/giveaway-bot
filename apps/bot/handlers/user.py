@@ -4,7 +4,7 @@ import re
 import telebot
 from django.utils.translation import gettext as _
 from telebot import TeleBot, types
-from telebot.types import Message, CallbackQuery, ReplyKeyboardMarkup, KeyboardButton
+from telebot.types import Message, CallbackQuery, ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
 from django.utils import timezone
 from apps.bot.logger import logger
 from apps.bot.utils import update_or_create_user
@@ -74,6 +74,8 @@ def handle_phone(message: Message, bot: TeleBot):
     )
     keyboard.add(*buttons)
     keyboard.add(confirm)
+    reply_markup = ReplyKeyboardRemove()
+    bot.send_message(message.chat.id, _("Telfon raqam saqlandi!"), reply_markup=reply_markup)
     bot.send_message(
         message.chat.id,
         _(
@@ -81,6 +83,7 @@ def handle_phone(message: Message, bot: TeleBot):
         ),
         reply_markup=keyboard,
         parse_mode="Markdown",
+
     )
     logger.info(f"User {message.from_user.id} asked to confirm subscription.")
 
