@@ -12,7 +12,7 @@ app.config_from_object("django.conf:settings", namespace="CELERY")
 app.conf.beat_schedule = {
     "every-2-hour-task": {
         "task": "apps.support.tasks.check.check_users_in_groups",
-        "schedule": crontab(minute=0, hour="*/2"),
+        "schedule": crontab(minute=0, hour="*/12"),
     },
 }
 
