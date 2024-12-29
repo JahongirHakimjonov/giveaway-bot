@@ -24,7 +24,7 @@ def check_users_in_groups():
                 if member.status == "left" or member.status == "kicked":
                     # not_in_groups.append(group.group_id)
                     url = group.url
-                    username = url.replace("https://t.me/", "")
+                    username = url.replace("https://t.me/", "@")
                     not_in_groups.append(username)
             except ApiTelegramException as e:
                 logger.error(
@@ -39,7 +39,7 @@ def check_users_in_groups():
             user.save()
             bot.send_message(
                 user.telegram_id,
-                f"❗️ Diqqat! Siz homiy kanallardan chiqib ketgansiz: {' , '.join(not_in_groups)}.\n\n"
+                f"❗️ Diqqat! Siz homiy kanallardan chiqib ketgansiz:\n{' , '.join(not_in_groups)} .\n\n"
                 "🔄 Konkursda ishtirokni davom ettirish uchun:\n"
                 "1️⃣ /start tugmasini bosing.\n"
                 "2️⃣ Homiy kanallarga qayta obuna bo‘ling.\n\n"
