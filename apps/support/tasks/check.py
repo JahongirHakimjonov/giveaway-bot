@@ -22,7 +22,10 @@ def check_users_in_groups():
             try:
                 member = bot.get_chat_member(group.group_id, user.telegram_id)
                 if member.status == "left" or member.status == "kicked":
-                    not_in_groups.append(group.group_id)
+                    # not_in_groups.append(group.group_id)
+                    url = group.url
+                    username = url.replace("https://t.me/", "")
+                    not_in_groups.append(username)
             except ApiTelegramException as e:
                 logger.error(
                     f"An error occurred while checking user {user.telegram_id} in group {group.group_id}: {e}"
@@ -36,5 +39,9 @@ def check_users_in_groups():
             user.save()
             bot.send_message(
                 user.telegram_id,
-                "❗️ Diqqat! Siz homiy kanallardan chiqib ketgansiz.\n\n🔄 Konkursda ishtirokni davom ettirish uchun:\n1️⃣ /start tugmasini bosing.\n2️⃣ Homiy kanallarga qayta obuna bo‘ling.\n\n🎯 Yutish imkoniyatini qo‘ldan boy bermang!",
+                f"❗️ Diqqat! Siz homiy kanallardan chiqib ketgansiz: {' , '.join(not_in_groups)}.\n\n"
+                "🔄 Konkursda ishtirokni davom ettirish uchun:\n"
+                "1️⃣ /start tugmasini bosing.\n"
+                "2️⃣ Homiy kanallarga qayta obuna bo‘ling.\n\n"
+                "🎯 Yutish imkoniyatini qo‘ldan boy bermang!"
             )
